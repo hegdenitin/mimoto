@@ -6,7 +6,9 @@ Helm chart for installing MOSIP mimoto Application.
 
 ```console
 $ helm repo add mosip https://mosip.github.io
+$ helm repo add mosip https://inji.github.io
 $ helm install my-release mosip/mimoto
+$ helm install my-release inji/mimoto
 ```
 ```console
 ./install.sh

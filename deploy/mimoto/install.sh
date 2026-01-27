@@ -31,6 +31,7 @@ function installing_mimoto() {
   echo Istio label
   kubectl label ns $NS istio-injection=enabled --overwrite
   helm repo add mosip https://mosip.github.io/mosip-helm
+  helm repo add mosip https://inji.github.io/helm
   helm repo update
 
   echo Copy Configmaps
@@ -60,7 +61,7 @@ function installing_mimoto() {
 
   INJI_DATASHARE_HOST=$(kubectl get cm inji-stack-config -o jsonpath={.data.inji-datashare-host})
   echo "Installing datashare"
-  helm -n $NS install datashare-inji mosip/datashare \
+  helm -n $NS install datashare-inji inji/datashare \
   -f datashare-values.yaml \
   --version $DATASHARE_CHART_VERSION
 
@@ -104,7 +105,7 @@ function installing_mimoto() {
 
       echo "MIMOTO KEYGEN HELM ARGS $MIMOTO_KEYGEN_HELM_ARGS"
       echo "Running mimoto keygen"
-      helm -n $NS install mimoto-keygen mosip/keygen -f keygen-mimoto.yaml $MIMOTO_KEYGEN_HELM_ARGS --wait --wait-for-jobs --version $KEYGEN_CHART_VERSION
+      helm -n $NS install mimoto-keygen inji/keygen -f keygen-mimoto.yaml $MIMOTO_KEYGEN_HELM_ARGS --wait --wait-for-jobs --version $KEYGEN_CHART_VERSION
     fi
 
   elif [[ "$keystore_choice" == "3" ]]; then
@@ -153,7 +154,7 @@ function installing_mimoto() {
 
 
   echo Installing mimoto
-  helm -n $NS install mimoto mosip/mimoto  --version $CHART_VERSION -f values.yaml $ENABLE_INSECURE \
+  helm -n $NS install mimoto inji/mimoto  --version $CHART_VERSION -f values.yaml $ENABLE_INSECURE \
     --set mimoto.secrets.google-client.MOSIP_INJIWEB_GOOGLE_CLIENT_ID="$clientId" \
     --set mimoto.secrets.google-client.MOSIP_INJIWEB_GOOGLE_CLIENT_SECRET="$secretKey"
 
