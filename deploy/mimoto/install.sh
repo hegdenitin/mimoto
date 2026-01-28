@@ -31,7 +31,7 @@ function installing_mimoto() {
   echo Istio label
   kubectl label ns $NS istio-injection=enabled --overwrite
   helm repo add mosip https://mosip.github.io/mosip-helm
-  helm repo add mosip https://inji.github.io/helm
+  helm repo add inji https://inji.github.io/helm
   helm repo update
 
   echo Copy Configmaps
@@ -84,7 +84,7 @@ function installing_mimoto() {
 
   elif [[ "$keystore_choice" == "2" ]]; then
     volume_size=200M
-    volume_mount_path='/home/mosip/encryption'
+    volume_mount_path='/home/inji/encryption'
     PVC_CLAIM_NAME='mimoto-keygen-keymanager'
     MIMOTO_KEYGEN_HELM_ARGS='--set springConfigNameEnv="mimoto"'
     MIMOTO_HELM_ARGS=''
@@ -105,7 +105,7 @@ function installing_mimoto() {
 
       echo "MIMOTO KEYGEN HELM ARGS $MIMOTO_KEYGEN_HELM_ARGS"
       echo "Running mimoto keygen"
-      helm -n $NS install mimoto-keygen inji/keygen -f keygen-mimoto.yaml $MIMOTO_KEYGEN_HELM_ARGS --wait --wait-for-jobs --version $KEYGEN_CHART_VERSION
+      helm -n $NS install mimoto-keygen mosip/keygen -f keygen-mimoto.yaml $MIMOTO_KEYGEN_HELM_ARGS --wait --wait-for-jobs --version $KEYGEN_CHART_VERSION
     fi
 
   elif [[ "$keystore_choice" == "3" ]]; then
