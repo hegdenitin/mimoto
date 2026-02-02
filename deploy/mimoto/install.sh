@@ -61,7 +61,7 @@ function installing_mimoto() {
 
   INJI_DATASHARE_HOST=$(kubectl get cm inji-stack-config -o jsonpath={.data.inji-datashare-host})
   echo "Installing datashare"
-  helm -n $NS install datashare-inji inji/datashare \
+  helm -n $NS install datashare-inji mosip/datashare \
   -f datashare-values.yaml \
   --version $DATASHARE_CHART_VERSION
 
